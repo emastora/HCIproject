@@ -29,7 +29,7 @@ public class Listview extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listview);
-    }
+
     contactList = new ArrayList<>();
     lv = (ListView) findViewById(R.id.list);
 
@@ -40,8 +40,8 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        Toast.makeText(Listview.this,"Json Data is
-                downloading",Toast.LENGTH_LONG).show();
+        Toast.makeText(Listview.this,"Json Data is"+
+                "downloading",Toast.LENGTH_LONG).show();
 
     }
 
@@ -52,7 +52,7 @@ private class GetContacts extends AsyncTask<Void, Void, Void> {
         String url = "http://api.androidhive.info/contacts/";
         String jsonStr = sh.makeServiceCall(url);
 
-        Log.e(TAG, "Response from url: " + jsonStr);
+        Log.e("debug", "Response from url: " + jsonStr);
         if (jsonStr != null) {
             try {
                 JSONObject jsonObj = new JSONObject(jsonStr);

@@ -1,10 +1,15 @@
 package com.example.hciproject;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import android.widget.Button;
@@ -12,53 +17,101 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
-    Button b1,b2;
-    EditText ed1,ed2;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    TextView tx1;
-    int counter = 3;
+import java.util.Map;
+
+public class MainActivity extends AppCompatActivity {
+    private Button skroutzLoginButton;
+    private MainActivity thisActivity;
+    String secret="K3j/0biTBg1QLkXGMrs68COfWsQaBewIVcec3d0BTMEwsCzQLAWdzpsjrtg4e4hpUDunnHLjlpBLDMM1QEsw==";
+    String redirectionUrl="www.manos.mastorakis.gr";
+    String responceType="code";
+    String scope="public";
+    String clientId="vZrtR94kaCqLtlzGrRwGFg==";
+    String grantType="client_credentials";
+    private String params;
+    private SharedPreferences preferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        b1 = (Button)findViewById(R.id.button);
-        ed1 = (EditText)findViewById(R.id.editText);
-        ed2 = (EditText)findViewById(R.id.editText2);
+        thisActivity=this;
+        preferences=getSharedPreferences("credentials",MODE_PRIVATE);
+        Map<String,?> keys = preferences.getAll();
 
-        b2 = (Button)findViewById(R.id.button2);
-        tx1 = (TextView)findViewById(R.id.textView3);
-        tx1.setVisibility(View.GONE);
+        for(Map.Entry<String,?> entry : keys.entrySet()){
+            Log.d("map values",entry.getKey() + ": " +
+                    entry.getValue().toString());
+        }
 
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(ed1.getText().toString().equals("admin") && ed2.getText().toString().equals("admin")) {
-                    Toast.makeText(getApplicationContext(),
-                            "Redirecting...",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getApplicationContext(),
-                            "Wrong Credentials",Toast.LENGTH_SHORT).show();
-
-                            tx1.setVisibility(View.VISIBLE);
-                    tx1.setBackgroundColor(Color.RED);
-                    counter--;
-                    tx1.setText(Integer.toString(counter));
-
-                    if (counter == 0) {
-                        b1.setEnabled(false);
-                    }
-                }
+        preferences=getSharedPreferences("credentials",MODE_PRIVATE);
+        if(!preferences.getString("token","default").equals("default")){
+            //EXOUME ENA UPARXON TOKEN
+            Long date=preferences.getLong("date",0);
+            int expires=preferences.getInt("expires",0);
+            Long now=System.currentTimeMillis()/1000;
+            Long dateTokenExpires=date+expires;
+            if(now>dateTokenExpires){
+                //expired
+            }else{
+                //still available
             }
-        });
+        }
 
-        b2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+        String url="https://www.skroutz.gr/oauth2/token";
+        params = "client_id="+clientId;
+        params = params+"&client_secret="+secret;
+        params = params+"&grant_type="+grantType;
+        params = params+"&scope="+scope;
+        url=url+"?"+params;
+        new GetToken().execute(url,"");
+
+
+
+
+//        skroutzLoginButton= (Button) this.findViewById(R.id.skroutz);
+//        skroutzLoginButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent authIntent=new Intent(thisActivity,AuthActivity.class);
+//                thisActivity.startActivity(authIntent);
+//            }
+//        });
+
+
+    }
+
+    class GetToken extends AsyncTask<String,String,String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+            return new Network(thisActivity).doPostRequest(thisActivity,params[0],params[1],false);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d("debug","response:"+s);
+            try {
+                JSONObject root=new JSONObject(s);
+                String token=root.getString("access_token");
+                int expiresSeconds=root.getInt("expires_in");
+                SharedPreferences preferences=getSharedPreferences("credentials",MODE_PRIVATE);
+                preferences.edit().putString("token",token).apply();
+                preferences.edit().putInt("expires",expiresSeconds).apply();
+                preferences.edit().putLong("date", System.currentTimeMillis()/1000).apply();
+                Intent intent=new Intent(thisActivity,SearchActivity.class);
+                thisActivity.startActivity(intent);
+                thisActivity.finish();
+            } catch (JSONException e) {
+
             }
-        });
+
+        }
     }
 }
 
