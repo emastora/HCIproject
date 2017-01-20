@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary_lighter"
+    android:background="#ffffff"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -18,6 +18,7 @@
             android:ems="10"
             android:hint="Search for products..."
             android:inputType="textPersonName"
+            android:textCursorDrawable="@null"
             android:paddingLeft="10dp"
             android:textColor="@color/primary_text" />
 
@@ -41,7 +42,7 @@
         android:background="@color/divider" />
 
     <ListView
-        android:id="@+id/listview"
+        android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

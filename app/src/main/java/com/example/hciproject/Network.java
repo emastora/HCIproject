@@ -51,7 +51,7 @@ public class Network {
     }
 
 
-    private static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+    private static final MediaType JSON = MediaType.parse("application/vnd.skroutz+json; version=3.1; charset=utf-8");
     private OkHttpClient client = null;
 
     OkHttpClient getClient() {
@@ -69,12 +69,14 @@ public class Network {
         Log.d("debug","url:"+url);
         Response response;
         try {
-            Request request = buildRequest(context, url.replace("http:", "https:"), addAuthHeader, null);
+            Request request = buildRequest(context, url, addAuthHeader, null);
             response = getClient().newCall(request).execute();
             return response.body().string();
         } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }catch (Exception e){
+            e.printStackTrace();
             return null;
         }
 
@@ -85,7 +87,7 @@ public class Network {
         Log.d("debug","url:"+url);
         try {
             RequestBody requestBody = (params != null ? RequestBody.create(JSON, params) : RequestBody.create(null, new byte[0]));
-            Request request = buildRequest(context, url.replace("http:", "https:"), addAuthHeader, requestBody);
+            Request request = buildRequest(context, url, addAuthHeader, requestBody);
             Response response;
             response = getClient().newCall(request).execute();
             return response.body().string();
@@ -99,7 +101,9 @@ public class Network {
     private Request buildRequest(Context context, String url, boolean addAuthHeader, RequestBody requestBody) {
         Request.Builder requestBuilder = new Request.Builder().url(url);
         if(addAuthHeader) {
-            requestBuilder.addHeader("Authorization", "Bearer " + token);
+            requestBuilder.addHeader("Authorization", "Bearer " +token);
+            requestBuilder.addHeader("Accept","application/vnd.skroutz+json; version=3.1; charset=utf-8");
+            Log.d("debug","token added:"+token);
         }
         if(requestBody != null) {
             requestBuilder.post(requestBody);

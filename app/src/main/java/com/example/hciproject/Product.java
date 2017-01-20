@@ -6,9 +6,18 @@ package com.example.hciproject;
 
 public class Product {
     private String name;
-    private int minPrice;
+    private double minPrice;
     private int numberStores;
     private String imageUrl;
+    private int id;
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -18,11 +27,11 @@ public class Product {
         this.name = name;
     }
 
-    public int getMinPrice() {
+    public double getMinPrice() {
         return minPrice;
     }
 
-    public void setMinPrice(int minPrice) {
+    public void setMinPrice(double minPrice) {
         this.minPrice = minPrice;
     }
 
