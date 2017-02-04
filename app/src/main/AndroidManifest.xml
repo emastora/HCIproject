@@ -3,8 +3,9 @@
     package="com.example.hciproject">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -19,12 +20,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".Listview"></activity>
-        <activity android:name=".SearchActivity"></activity>
-        <activity android:name=".ProductListActivity"></activity>
-        <activity android:name=".AuthActivity"></activity>
-        <activity android:name=".ShopListActivity"></activity>
+        <activity android:name=".Listview" />
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".ProductListActivity" />
+        <activity android:name=".AuthActivity" />
+        <activity android:name=".ShopListActivity" />
+        <activity
+            android:name=".CameraActivity"
+            android:label="@string/title_activity_camera"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

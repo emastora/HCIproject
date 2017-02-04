@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -31,6 +33,13 @@ public class ShopListActivity extends AppCompatActivity {
         setContentView(R.layout.product_card);
         thisActivity=this;
         listview=(ListView)findViewById(R.id.lv);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent camera=new Intent(thisActivity,CameraActivity.class);
+                thisActivity.startActivity(camera);
+            }
+        });
         int skuId=this.getIntent().getIntExtra("skuId",0);
         String url="http://api.skroutz.gr/skus/"+skuId+"/products";
         new GetShops().execute(url);
