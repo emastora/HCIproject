@@ -20,4 +20,15 @@
 
 .idea/misc.xml
 
+.idea/*
 .idea/gradle.xml
+
+gradlew.bat
+
+gradlew
+
+gradle/wrapper/gradle-wrapper.jar
+
+.idea/compiler.xml
+
+.idea/copyright/profiles_settings.xml
