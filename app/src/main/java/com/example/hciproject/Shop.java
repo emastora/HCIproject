@@ -9,6 +9,8 @@ public class Shop {
     private int shopId;
     private double price;
     private boolean immediate;
+    private boolean lat;
+    private boolean aLong;
 
     public String getName() {
         return name;
@@ -40,5 +42,29 @@ public class Shop {
 
     public void setImmediate(boolean immediate) {
         this.immediate = immediate;
+    }
+
+    public boolean getLat() {
+        return lat;
+    }
+
+    public boolean isLat() {
+        return lat;
+    }
+
+    public void setLat(boolean lat) {
+        this.lat = lat;
+    }
+
+    public boolean getLong() {
+        return aLong;
+    }
+
+    public boolean isaLong() {
+        return aLong;
+    }
+
+    public void setaLong(boolean aLong) {
+        this.aLong = aLong;
     }
 }

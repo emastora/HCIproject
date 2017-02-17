@@ -37,6 +37,7 @@ public class ShopListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent camera=new Intent(thisActivity,CameraActivity.class);
+                camera.putExtra("id",shops.get(position).getShopId());
                 thisActivity.startActivity(camera);
             }
         });

@@ -67,6 +67,7 @@ public class ProductListActivity extends AppCompatActivity {
             super.onPostExecute(s);
             Log.d("debug","response:"+s);
             products=parse(s);
+            if(products==null) return;
             list.setAdapter(new AdapterProduct(thisActivity,0,products));
 
         }
