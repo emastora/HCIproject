@@ -8,8 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,8 +46,27 @@ public class ShopListActivity extends AppCompatActivity {
             }
         });
         int skuId=this.getIntent().getIntExtra("skuId",0);
+
+        String image=this.getIntent().getStringExtra("image");
+        String name=this.getIntent().getStringExtra("name");
+        int shops=this.getIntent().getIntExtra("shops",0);
+
+        ImageView imageView=(ImageView)this.findViewById(R.id.category_image);
+        Picasso.with(thisActivity).load(image).into(imageView);
+        TextView title=(TextView)this.findViewById(R.id.name);
+        title.setText(name);
+        TextView numStores=(TextView)this.findViewById(R.id.num_stores);
+        numStores.setText("Stores:"+shops);
+        TextView price=(TextView)this.findViewById(R.id.price);
+        price.setVisibility(View.GONE);
+
+
         String url="http://api.skroutz.gr/skus/"+skuId+"/products";
         new GetShops().execute(url);
+    }
+
+    private void initializeFirstCell(String image,String name,int shops){
+
     }
 
     class GetShops extends AsyncTask<String,String,String>{
@@ -88,6 +111,7 @@ public class ShopListActivity extends AppCompatActivity {
                 shop.setName(shopJson.getString("name"));
                 shop.setPrice(shopJson.getDouble("price"));
                 shop.setImmediate(shopJson.getBoolean("immediate_pickup"));
+                shop.setAvailabilityString(shopJson.getString("availability"));
                 shop.setShopId(shopJson.getInt("shop_id"));
                 shops.add(shop);
             }

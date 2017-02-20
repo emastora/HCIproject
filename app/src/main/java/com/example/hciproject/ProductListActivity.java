@@ -39,6 +39,9 @@ public class ProductListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent=new Intent(thisActivity,ShopListActivity.class);
                 intent.putExtra("skuId",products.get(position).getId());
+                intent.putExtra("name",products.get(position).getName());
+                intent.putExtra("image",products.get(position).getImageUrl());
+                intent.putExtra("shops",products.get(position).getNumberStores());
                 thisActivity.startActivity(intent);
             }
         });

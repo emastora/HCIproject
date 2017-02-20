@@ -11,6 +11,7 @@ public class Shop {
     private boolean immediate;
     private boolean lat;
     private boolean aLong;
+    private String availabilityString;
 
     public String getName() {
         return name;
@@ -66,5 +67,13 @@ public class Shop {
 
     public void setaLong(boolean aLong) {
         this.aLong = aLong;
+    }
+
+    public String getAvailabilityString() {
+        return availabilityString;
+    }
+
+    public void setAvailabilityString(String availabilityString) {
+        this.availabilityString = availabilityString;
     }
 }

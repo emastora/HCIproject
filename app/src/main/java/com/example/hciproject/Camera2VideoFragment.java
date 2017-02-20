@@ -26,6 +26,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
@@ -53,6 +54,8 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -219,6 +222,7 @@ public class Camera2VideoFragment extends Fragment
     private String mNextVideoAbsolutePath;
     private CaptureRequest.Builder mPreviewBuilder;
     private Surface mRecorderSurface;
+    private TextView pasKala;
 
     public static Camera2VideoFragment newInstance() {
         return new Camera2VideoFragment();
@@ -279,11 +283,15 @@ public class Camera2VideoFragment extends Fragment
         return inflater.inflate(R.layout.fragment_camera2_video, container, false);
     }
 
+    RelativeLayout relative;
+
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture);
         mButtonVideo = (Button) view.findViewById(R.id.video);
         mButtonVideo.setOnClickListener(this);
+        relative=(RelativeLayout) view.findViewById(R.id.relative);
+        pasKala =(TextView)view.findViewById(R.id.pas_kala);
         view.findViewById(R.id.info).setOnClickListener(this);
     }
 
@@ -696,6 +704,16 @@ public class Camera2VideoFragment extends Fragment
         }
         mNextVideoAbsolutePath = null;
         startPreview();
+    }
+
+    public void setColor(boolean b) {
+        if(b){
+            relative.setBackgroundColor(Color.RED);
+            pasKala.setVisibility(View.VISIBLE);
+        }else{
+            relative.setBackgroundColor(Color.BLACK);
+            pasKala.setVisibility(View.GONE);
+        }
     }
 
     /**

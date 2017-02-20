@@ -9,8 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 /**
@@ -42,7 +40,7 @@ public class AdapterShops extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view=null;
         if(convertView==null){
-            view=li.inflate(R.layout.product_cell,null);
+            view=li.inflate(R.layout.shop_cell,null);
             Holder holder=new Holder();
             holder.image= (ImageView) view.findViewById(R.id.category_image);
             holder.name=(TextView)view.findViewById(R.id.name);
@@ -56,7 +54,7 @@ public class AdapterShops extends ArrayAdapter {
         holder.name.setText(products.get(position).getName());
         holder.position=position;
         holder.price.setText(Double.toString(products.get(position).getPrice()));
-        holder.stores.setText(products.get(position).isImmediate()?"Immediately available":"After order");
+        holder.stores.setText(products.get(position).isImmediate()?"Immediately available":products.get(position).getAvailabilityString());
         view.setTag(holder);
         return view;
     }
